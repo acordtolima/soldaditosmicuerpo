@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Los soldaditos de mi cuerpo",
+      "hasCanvas": true,
+      "bodyTextLen": 572,
+      "bodyTextHash": "b6e27546a3304af0e45676a2f94dee2fdd2573ce4b971f41c0fc77fe653e58b3",
+      "bodyTextPrefix": "Los soldaditos de mi cuerpo Cuento para colorear · doctora Esper",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Los soldaditos de mi cuerpo",
+      "hasCanvas": true,
+      "bodyTextLen": 553,
+      "bodyTextHash": "e08ca93e8ec739d20ab96abb47915ba119cfb61730785d2ebe92e4658508b2ee",
+      "bodyTextPrefix": "Los soldaditos de mi cuerpo Cuento para colorear · doctora Esper",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

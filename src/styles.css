@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f6f1e4;
+  --color-paper-deep: #ebe3d2;
+  --color-ink: #1e3a5f;
+  --color-ink-soft: #4d6482;
+  --color-ribbon: #e25686;
+  --color-ribbon-ink: #8e234c;
+  --color-sand: #e7d3b8;
+  --color-sheet: #fffcf7;
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "Nunito", "Trebuchet MS", sans-serif;
+  --radius-card: 1.25rem;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    min-height: 100dvh;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+.sheet-frame {
+  aspect-ratio: var(--sheet, 0.75);
+  width: 100%;
+  margin-inline: auto;
+}
+
+.dock {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.safe-top {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .print-sheet {
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}

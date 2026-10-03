@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Los soldaditos de mi cuerpo">
+  <rect width="32" height="32" rx="8" fill="#1E3A5F"/>
+  <g fill="none" stroke="#E25686" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="12.1" cy="11.6" rx="4.15" ry="5.15" transform="rotate(-20 12.1 11.6)"/>
+    <ellipse cx="19.9" cy="11.6" rx="4.15" ry="5.15" transform="rotate(20 19.9 11.6)"/>
+    <path d="M14.4 16.2 10.2 26.4"/>
+    <path d="M17.6 16.2 21.8 26.4"/>
+  </g>
+</svg>
