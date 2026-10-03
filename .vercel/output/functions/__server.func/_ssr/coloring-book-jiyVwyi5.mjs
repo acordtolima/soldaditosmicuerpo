@@ -2,7 +2,7 @@ import { i as __toESM } from "../_runtime.mjs";
 import { n as STORAGE_KEY, r as STORIES, t as CRAYONS } from "./story-CxOBctAR.mjs";
 import { S as require_jsx_runtime, Y as require_react, b as useNavigate, y as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { a as Eraser, c as ChevronLeft, i as PaintBucket, l as Brush, o as Download, r as RotateCcw, s as ChevronRight, t as Undo2 } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/coloring-book-DsAADyxl.js
+//#region node_modules/.nitro/vite/services/ssr/assets/coloring-book-jiyVwyi5.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 /** Wall-bounded flood fill. `walls` is 1 on ink. Paints every pixel inside the region. */
@@ -145,7 +145,6 @@ function ColoringBook({ storyId = null }) {
 	const story = STORIES.find((item) => item.id === storyId) ?? null;
 	const pages = story?.pages ?? [];
 	const page = pages[index] ?? pages[0];
-	const crayon = CRAYONS.find((item) => item.hex === color) ?? CRAYONS[0];
 	(0, import_react.useLayoutEffect)(() => {
 		const saved = loadSave();
 		if (saved.art) savesRef.current = saved.art;
@@ -459,52 +458,156 @@ function ColoringBook({ storyId = null }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "flex min-h-dvh flex-col overflow-x-hidden bg-paper text-ink",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
-				className: "safe-top no-print mx-auto flex w-full max-w-6xl items-center gap-3 px-4 pb-2 sm:px-6 sm:pt-4",
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "dock no-print sticky top-0 z-20 border-b border-sand bg-paper px-3 pt-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-2",
+					role: "listbox",
+					"aria-label": "Crayones",
+					children: CRAYONS.map((item) => {
+						const selected = item.hex === color;
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							type: "button",
+							role: "option",
+							"aria-selected": selected,
+							"aria-label": item.name,
+							title: item.name,
+							onClick: () => {
+								setColor(item.hex);
+								if (tool === "eraser") setTool("brush");
+							},
+							className: "relative size-11 shrink-0 rounded-full border-2 border-sheet shadow-sm " + (selected ? "ring-2 ring-ribbon ring-offset-2 ring-offset-paper" : ""),
+							style: { backgroundColor: item.hex }
+						}, item.id);
+					})
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-2",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							type: "button",
+							onClick: closeStory,
+							"aria-label": "Volver a los cuentos",
+							className: "inline-flex min-h-11 shrink-0 items-center gap-1 rounded-full bg-sand px-3 text-sm font-extrabold text-ink",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "size-4" }), "Cuentos"]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							type: "button",
+							onClick: () => go(index - 1),
+							disabled: index === 0,
+							"aria-label": "Página anterior",
+							className: "inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-sand text-ink disabled:opacity-40",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "size-5" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							type: "button",
+							onClick: () => go(index + 1),
+							disabled: index === pages.length - 1,
+							"aria-label": "Página siguiente",
+							className: "inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-ink text-paper disabled:opacity-40",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronRight, { className: "size-5" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolButton, {
+							active: tool === "bucket",
+							label: "Balde",
+							onClick: () => setTool("bucket"),
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PaintBucket, { className: "size-4" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolButton, {
+							active: tool === "brush",
+							label: "Pincel",
+							onClick: () => setTool("brush"),
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Brush, { className: "size-4" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolButton, {
+							active: tool === "eraser",
+							label: "Goma",
+							onClick: () => setTool("eraser"),
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Eraser, { className: "size-4" })
+						}),
+						tool !== "bucket" && BRUSH_SIZES.map((size) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							type: "button",
+							onClick: () => setBrush(size.id),
+							className: "min-h-11 shrink-0 rounded-full px-3 text-sm font-extrabold " + (brush === size.id ? "bg-ink text-paper" : "bg-sand text-ink"),
+							children: size.label
+						}, size.id)),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							type: "button",
+							onClick: undo,
+							disabled: !canUndo,
+							className: "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-sand px-3 text-sm font-extrabold text-ink disabled:opacity-40",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Undo2, { className: "size-4" }), "Deshacer"]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							type: "button",
+							onClick: clearPage,
+							className: "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-sand px-3 text-sm font-extrabold text-ink",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { className: "size-4" }), "Borrar"]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							type: "button",
+							onClick: () => void download(),
+							className: "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-ribbon-ink px-3 text-sm font-extrabold text-paper",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Download, { className: "size-4" }), "Guardar"]
+						})
+					]
+				})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", {
+				className: "print-sheet mx-auto w-full max-w-2xl px-3 pt-3",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "sheet-frame relative overflow-hidden rounded-xl bg-sheet shadow-md",
+					style: { "--sheet": String(ratio) },
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("canvas", {
+						ref: colorRef,
+						"aria-label": `Lámina para colorear: ${page.alt}`,
+						className: `absolute inset-0 h-full w-full touch-none bg-sheet ${cursor}`,
+						onPointerDown,
+						onPointerMove,
+						onPointerUp: endStroke,
+						onPointerCancel: endStroke,
+						onContextMenu: (event) => event.preventDefault()
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+						src: page.src,
+						alt: "",
+						draggable: false,
+						className: "pointer-events-none absolute inset-0 h-full w-full select-none"
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
+					className: "sr-only",
+					children: page.alt
+				})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+				className: "mx-auto w-full min-w-0 max-w-2xl px-4 pt-4 pb-8",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						type: "button",
-						onClick: closeStory,
-						"aria-label": "Volver a los cuentos",
-						className: "grid size-11 shrink-0 place-items-center rounded-full bg-ink text-ribbon",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "size-5" })
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "min-w-0 flex-1",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "font-display text-lg leading-tight font-semibold text-ink sm:text-2xl",
-							children: story.title
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "truncate text-sm font-bold text-ink-soft",
-							children: "Cuento para colorear · doctora Esperanza"
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "text-xs font-extrabold tracking-widest text-ribbon-ink uppercase",
+						children: [page.kicker, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+							className: "text-ink-soft",
+							children: [
+								" ",
+								"· ",
+								index + 1,
+								" / ",
+								pages.length
+							]
 						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+						className: "mt-1 font-display text-2xl leading-tight font-semibold text-ink sm:text-3xl",
+						children: page.title
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mt-2 text-sm leading-relaxed font-semibold text-ink sm:text-base",
+						children: page.text
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "shrink-0 text-sm font-extrabold text-ink tabular-nums",
-						children: [index + 1, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-							className: "text-ink-soft",
-							children: [" / ", pages.length]
-						})]
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("nav", {
-				className: "no-print mx-auto flex w-full max-w-6xl items-center gap-1 px-2 sm:px-6",
-				"aria-label": "Páginas del cuento",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-						type: "button",
-						onClick: () => go(index - 1),
-						disabled: index === 0,
-						"aria-label": "Página anterior",
-						className: "inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-full bg-sand px-3 text-sm font-extrabold text-ink disabled:opacity-40",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "size-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "hidden sm:inline",
-							children: "Anterior"
-						})]
+						className: "mt-3 text-xs font-bold text-ink-soft sm:text-sm",
+						children: [story.title, " · Liga Contra el Cáncer, Zonal Tolima"]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "flex min-w-0 flex-1 justify-center",
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", {
+						className: "no-print mt-4 flex items-center gap-1",
+						"aria-label": "Páginas del cuento",
 						children: pages.map((item, dot) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 							type: "button",
 							"aria-label": item.title,
@@ -513,149 +616,6 @@ function ColoringBook({ storyId = null }) {
 							className: "grid h-11 min-w-0 flex-1 place-items-center",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2.5 rounded-full " + (dot === index ? "bg-ribbon" : painted[`${story.id}:${item.id}`] ? "bg-ink" : "bg-sand") })
 						}, item.id))
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-						type: "button",
-						onClick: () => go(index + 1),
-						disabled: index === pages.length - 1,
-						"aria-label": "Página siguiente",
-						className: "inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-full bg-ink px-3 text-sm font-extrabold text-paper disabled:opacity-40",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "hidden sm:inline",
-							children: "Siguiente"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronRight, { className: "size-5" })]
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-				className: "mx-auto grid w-full min-w-0 max-w-6xl content-start items-start gap-3 px-3 py-2 sm:px-6 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-6 lg:py-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
-					className: "order-2 min-w-0 lg:order-1",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xs font-extrabold tracking-widest text-ribbon-ink uppercase",
-							children: page.kicker
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-							className: "mt-1 font-display text-2xl leading-tight font-semibold text-ink sm:text-3xl",
-							children: page.title
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "mt-2 text-sm leading-relaxed font-semibold text-ink sm:text-base",
-							children: page.text
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "mt-2 text-xs font-bold text-ink-soft sm:text-sm",
-							children: "Liga Contra el Cáncer · Zonal Tolima"
-						})
-					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-					className: "order-1 min-w-0 lg:order-2",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", {
-						className: "print-sheet -mx-3 sm:mx-0",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "sheet-frame relative overflow-hidden rounded-xl bg-sheet shadow-md",
-							style: { "--sheet": String(ratio) },
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("canvas", {
-								ref: colorRef,
-								"aria-label": `Lámina para colorear: ${page.alt}`,
-								className: `absolute inset-0 h-full w-full touch-none bg-sheet ${cursor}`,
-								onPointerDown,
-								onPointerMove,
-								onPointerUp: endStroke,
-								onPointerCancel: endStroke,
-								onContextMenu: (event) => event.preventDefault()
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: page.src,
-								alt: "",
-								draggable: false,
-								className: "pointer-events-none absolute inset-0 h-full w-full select-none"
-							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
-							className: "sr-only",
-							children: page.alt
-						})]
-					})
-				})]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "dock no-print sticky bottom-0 z-20 mt-auto border-t border-sand bg-paper px-4 pt-3",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-2",
-						role: "listbox",
-						"aria-label": "Crayones",
-						children: CRAYONS.map((item) => {
-							const selected = item.hex === color;
-							return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-								type: "button",
-								role: "option",
-								"aria-selected": selected,
-								"aria-label": item.name,
-								title: item.name,
-								onClick: () => {
-									setColor(item.hex);
-									if (tool === "eraser") setTool("brush");
-								},
-								className: "relative size-11 shrink-0 rounded-full border-2 border-sheet shadow-sm " + (selected ? "ring-2 ring-ribbon ring-offset-2 ring-offset-paper" : ""),
-								style: { backgroundColor: item.hex }
-							}, item.id);
-						})
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "mx-auto mb-2 max-w-6xl text-sm font-extrabold text-ink",
-						children: [crayon.name, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-							className: "font-semibold text-ink-soft",
-							children: [" ", "· toca un espacio en blanco. Si se sale, deshaz."]
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-1",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolButton, {
-								active: tool === "bucket",
-								label: "Balde",
-								onClick: () => setTool("bucket"),
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PaintBucket, { className: "size-4" })
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolButton, {
-								active: tool === "brush",
-								label: "Pincel",
-								onClick: () => setTool("brush"),
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Brush, { className: "size-4" })
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToolButton, {
-								active: tool === "eraser",
-								label: "Goma",
-								onClick: () => setTool("eraser"),
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Eraser, { className: "size-4" })
-							}),
-							tool !== "bucket" && BRUSH_SIZES.map((size) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-								type: "button",
-								onClick: () => setBrush(size.id),
-								className: "min-h-11 shrink-0 rounded-full px-3 text-sm font-extrabold " + (brush === size.id ? "bg-ink text-paper" : "bg-sand text-ink"),
-								children: size.label
-							}, size.id)),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-								type: "button",
-								onClick: undo,
-								disabled: !canUndo,
-								className: "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-sand px-3 text-sm font-extrabold text-ink disabled:opacity-40",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Undo2, { className: "size-4" }), "Deshacer"]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-								type: "button",
-								onClick: clearPage,
-								className: "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-sand px-3 text-sm font-extrabold text-ink",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { className: "size-4" }), "Borrar"]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-								type: "button",
-								onClick: () => void download(),
-								className: "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-ribbon-ink px-3 text-sm font-extrabold text-paper",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Download, { className: "size-4" }), "Guardar"]
-							})
-						]
 					})
 				]
 			})

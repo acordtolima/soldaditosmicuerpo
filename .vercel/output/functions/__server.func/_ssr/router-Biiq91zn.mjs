@@ -3,7 +3,7 @@ import { r as STORIES } from "./story-CxOBctAR.mjs";
 import { K as redirect, S as require_jsx_runtime, Y as require_react, _ as createFileRoute, d as Scripts, f as HeadContent, g as lazyRouteComponent, h as Outlet, m as createRouter, v as createRootRoute, x as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-DGJ0HlJn.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-Biiq91zn.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -307,7 +307,7 @@ function PreviewHostBridge() {
 	}, [router]);
 	return null;
 }
-var styles_default = "/assets/styles-DdvoyS-g.css";
+var styles_default = "/assets/styles-BoKS-pA8.css";
 var APP_NAME = "Cuentos para colorear";
 var Route$2 = createRootRoute({
 	head: () => ({
@@ -370,9 +370,9 @@ var Route$2 = createRootRoute({
 		] })]
 	})
 });
-var $$splitComponentImporter$1 = () => import("./routes-Cef0Wt4n.mjs");
+var $$splitComponentImporter$1 = () => import("./routes-CsozJj4B.mjs");
 var Route$1 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
-var $$splitComponentImporter = () => import("../_cuento-Dnyv2dns.mjs");
+var $$splitComponentImporter = () => import("../_cuento-CDVEvk4W.mjs");
 var Route = createFileRoute("/$cuento")({
 	beforeLoad: ({ params }) => {
 		if (!STORIES.some((item) => item.id === params.cuento)) throw redirect({ to: "/" });

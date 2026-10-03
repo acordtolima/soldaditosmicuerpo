@@ -103,7 +103,6 @@ export function ColoringBook({ storyId = null }: { storyId?: string | null }) {
   const story = STORIES.find((item) => item.id === storyId) ?? null;
   const pages = story?.pages ?? [];
   const page = pages[index] ?? pages[0];
-  const crayon = CRAYONS.find((item) => item.hex === color) ?? CRAYONS[0];
 
   useLayoutEffect(() => {
     const saved = loadSave();
@@ -446,119 +445,7 @@ export function ColoringBook({ storyId = null }: { storyId?: string | null }) {
 
   return (
     <div className="flex min-h-dvh flex-col overflow-x-hidden bg-paper text-ink">
-      <header className="safe-top no-print mx-auto flex w-full max-w-6xl items-center gap-3 px-4 pb-2 sm:px-6 sm:pt-4">
-        <button
-          type="button"
-          onClick={closeStory}
-          aria-label="Volver a los cuentos"
-          className="grid size-11 shrink-0 place-items-center rounded-full bg-ink text-ribbon"
-        >
-          <ChevronLeft className="size-5" />
-        </button>
-        <div className="min-w-0 flex-1">
-          <p className="font-display text-lg leading-tight font-semibold text-ink sm:text-2xl">
-            {story.title}
-          </p>
-          <p className="truncate text-sm font-bold text-ink-soft">
-            Cuento para colorear · doctora Esperanza
-          </p>
-        </div>
-        <p className="shrink-0 text-sm font-extrabold text-ink tabular-nums">
-          {index + 1}
-          <span className="text-ink-soft"> / {pages.length}</span>
-        </p>
-      </header>
-
-      <nav
-        className="no-print mx-auto flex w-full max-w-6xl items-center gap-1 px-2 sm:px-6"
-        aria-label="Páginas del cuento"
-      >
-        <button
-          type="button"
-          onClick={() => go(index - 1)}
-          disabled={index === 0}
-          aria-label="Página anterior"
-          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-full bg-sand px-3 text-sm font-extrabold text-ink disabled:opacity-40"
-        >
-          <ChevronLeft className="size-5" />
-          <span className="hidden sm:inline">Anterior</span>
-        </button>
-        <div className="flex min-w-0 flex-1 justify-center">
-          {pages.map((item, dot) => (
-            <button
-              key={item.id}
-              type="button"
-              aria-label={item.title}
-              aria-current={dot === index ? "page" : undefined}
-              onClick={() => go(dot)}
-              className="grid h-11 min-w-0 flex-1 place-items-center"
-            >
-              <span
-                className={
-                  "size-2.5 rounded-full " +
-                  (dot === index ? "bg-ribbon" : painted[`${story.id}:${item.id}`] ? "bg-ink" : "bg-sand")
-                }
-              />
-            </button>
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => go(index + 1)}
-          disabled={index === pages.length - 1}
-          aria-label="Página siguiente"
-          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-full bg-ink px-3 text-sm font-extrabold text-paper disabled:opacity-40"
-        >
-          <span className="hidden sm:inline">Siguiente</span>
-          <ChevronRight className="size-5" />
-        </button>
-      </nav>
-
-      <main className="mx-auto grid w-full min-w-0 max-w-6xl content-start items-start gap-3 px-3 py-2 sm:px-6 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-6 lg:py-4">
-        <section className="order-2 min-w-0 lg:order-1">
-          <p className="text-xs font-extrabold tracking-widest text-ribbon-ink uppercase">
-            {page.kicker}
-          </p>
-          <h1 className="mt-1 font-display text-2xl leading-tight font-semibold text-ink sm:text-3xl">
-            {page.title}
-          </h1>
-          <p className="mt-2 text-sm leading-relaxed font-semibold text-ink sm:text-base">
-            {page.text}
-          </p>
-          <p className="mt-2 text-xs font-bold text-ink-soft sm:text-sm">
-            Liga Contra el Cáncer · Zonal Tolima
-          </p>
-        </section>
-
-        <section className="order-1 min-w-0 lg:order-2">
-          <figure className="print-sheet -mx-3 sm:mx-0">
-            <div
-              className="sheet-frame relative overflow-hidden rounded-xl bg-sheet shadow-md"
-              style={{ "--sheet": String(ratio) } as CSSProperties}
-            >
-              <canvas
-                ref={colorRef}
-                aria-label={`Lámina para colorear: ${page.alt}`}
-                className={`absolute inset-0 h-full w-full touch-none bg-sheet ${cursor}`}
-                onPointerDown={onPointerDown}
-                onPointerMove={onPointerMove}
-                onPointerUp={endStroke}
-                onPointerCancel={endStroke}
-                onContextMenu={(event) => event.preventDefault()}
-              />
-              <img
-                src={page.src}
-                alt=""
-                draggable={false}
-                className="pointer-events-none absolute inset-0 h-full w-full select-none"
-              />
-            </div>
-            <figcaption className="sr-only">{page.alt}</figcaption>
-          </figure>
-        </section>
-      </main>
-
-      <div className="dock no-print sticky bottom-0 z-20 mt-auto border-t border-sand bg-paper px-4 pt-3">
+      <div className="dock no-print sticky top-0 z-20 border-b border-sand bg-paper px-3 pt-2">
         <div
           className="mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-2"
           role="listbox"
@@ -587,14 +474,34 @@ export function ColoringBook({ storyId = null }: { storyId?: string | null }) {
             );
           })}
         </div>
-        <p className="mx-auto mb-2 max-w-6xl text-sm font-extrabold text-ink">
-          {crayon.name}
-          <span className="font-semibold text-ink-soft">
-            {" "}
-            · toca un espacio en blanco. Si se sale, deshaz.
-          </span>
-        </p>
-        <div className="mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-1">
+        <div className="mx-auto flex w-full min-w-0 max-w-6xl gap-2 overflow-x-auto pb-2">
+          <button
+            type="button"
+            onClick={closeStory}
+            aria-label="Volver a los cuentos"
+            className="inline-flex min-h-11 shrink-0 items-center gap-1 rounded-full bg-sand px-3 text-sm font-extrabold text-ink"
+          >
+            <ChevronLeft className="size-4" />
+            Cuentos
+          </button>
+          <button
+            type="button"
+            onClick={() => go(index - 1)}
+            disabled={index === 0}
+            aria-label="Página anterior"
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-sand text-ink disabled:opacity-40"
+          >
+            <ChevronLeft className="size-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => go(index + 1)}
+            disabled={index === pages.length - 1}
+            aria-label="Página siguiente"
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-ink text-paper disabled:opacity-40"
+          >
+            <ChevronRight className="size-5" />
+          </button>
           <ToolButton active={tool === "bucket"} label="Balde" onClick={() => setTool("bucket")}>
             <PaintBucket className="size-4" />
           </ToolButton>
@@ -645,6 +552,67 @@ export function ColoringBook({ storyId = null }: { storyId?: string | null }) {
           </button>
         </div>
       </div>
+
+      <figure className="print-sheet mx-auto w-full max-w-2xl px-3 pt-3">
+        <div
+          className="sheet-frame relative overflow-hidden rounded-xl bg-sheet shadow-md"
+          style={{ "--sheet": String(ratio) } as CSSProperties}
+        >
+          <canvas
+            ref={colorRef}
+            aria-label={`Lámina para colorear: ${page.alt}`}
+            className={`absolute inset-0 h-full w-full touch-none bg-sheet ${cursor}`}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endStroke}
+            onPointerCancel={endStroke}
+            onContextMenu={(event) => event.preventDefault()}
+          />
+          <img
+            src={page.src}
+            alt=""
+            draggable={false}
+            className="pointer-events-none absolute inset-0 h-full w-full select-none"
+          />
+        </div>
+        <figcaption className="sr-only">{page.alt}</figcaption>
+      </figure>
+
+      <section className="mx-auto w-full min-w-0 max-w-2xl px-4 pt-4 pb-8">
+        <p className="text-xs font-extrabold tracking-widest text-ribbon-ink uppercase">
+          {page.kicker}
+          <span className="text-ink-soft">
+            {" "}
+            · {index + 1} / {pages.length}
+          </span>
+        </p>
+        <h1 className="mt-1 font-display text-2xl leading-tight font-semibold text-ink sm:text-3xl">
+          {page.title}
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed font-semibold text-ink sm:text-base">{page.text}</p>
+        <p className="mt-3 text-xs font-bold text-ink-soft sm:text-sm">
+          {story.title} · Liga Contra el Cáncer, Zonal Tolima
+        </p>
+        <nav className="no-print mt-4 flex items-center gap-1" aria-label="Páginas del cuento">
+          {pages.map((item, dot) => (
+            <button
+              key={item.id}
+              type="button"
+              aria-label={item.title}
+              aria-current={dot === index ? "page" : undefined}
+              onClick={() => go(dot)}
+              className="grid h-11 min-w-0 flex-1 place-items-center"
+            >
+              <span
+                className={
+                  "size-2.5 rounded-full " +
+                  (dot === index ? "bg-ribbon" : painted[`${story.id}:${item.id}`] ? "bg-ink" : "bg-sand")
+                }
+              />
+            </button>
+          ))}
+        </nav>
+      </section>
     </div>
   );
 }

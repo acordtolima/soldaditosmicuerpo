@@ -1,1 +1,0 @@
-import{p as e}from"./story-BX8GAHrN.js";import{t}from"./coloring-book-_VBlAkEa.js";import{t as n}from"./index-CY6oH2oD.js";var r=e();function i(){let{cuento:e}=n.useParams();return(0,r.jsx)(t,{storyId:e})}export{i as component};
