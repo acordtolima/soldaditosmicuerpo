@@ -3,7 +3,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "Los soldaditos de mi cuerpo";
+const APP_NAME = "Cuentos para colorear";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -14,7 +14,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Cuento para colorear con la doctora Esperanza. Los soldaditos del cuerpo, el VPH y la vacuna.",
+          "Cuentos para colorear con la doctora Esperanza, de la Liga Contra el Cáncer, Zonal Tolima.",
       },
       { name: "theme-color", content: "#f6f1e4" },
     ],

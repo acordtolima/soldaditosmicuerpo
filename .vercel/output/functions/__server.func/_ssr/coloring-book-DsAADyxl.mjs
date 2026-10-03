@@ -1,7 +1,8 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { K as require_react, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { n as STORAGE_KEY, r as STORIES, t as CRAYONS } from "./story-CxOBctAR.mjs";
+import { S as require_jsx_runtime, Y as require_react, b as useNavigate, y as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { a as Eraser, c as ChevronLeft, i as PaintBucket, l as Brush, o as Download, r as RotateCcw, s as ChevronRight, t as Undo2 } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-CmLAkjUi.js
+//#region node_modules/.nitro/vite/services/ssr/assets/coloring-book-DsAADyxl.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 /** Wall-bounded flood fill. `walls` is 1 on ink. Paints every pixel inside the region. */
@@ -56,136 +57,6 @@ function hexToRgb(hex) {
 		b: Number.parseInt(n.slice(4, 6), 16)
 	};
 }
-var STORY_TITLE = "Los soldaditos de mi cuerpo";
-var PAGES = [
-	{
-		id: "portada",
-		kicker: "Portada",
-		title: "Los soldaditos de mi cuerpo",
-		text: "La doctora Esperanza abre su cuaderno y sonríe. Trae su bata azul, su listón rosa y un secreto saludable: dentro de nuestro cuerpo viven soldaditos valientes, listos para cuidar el castillo que somos.",
-		src: "/pages/01-portada.png",
-		alt: "La doctora Esperanza saluda con un libro, rodeada de soldaditos, un castillo y una canasta de frutas."
-	},
-	{
-		id: "castillo",
-		kicker: "Página 1",
-		title: "Un castillo maravilloso",
-		text: "Nuestro cuerpo es como un castillo maravilloso y fuerte. Para mantenerlo feliz y lleno de energía, jugamos, comemos frutas de colores y dormimos bien por las noches. ¡Así cuidamos nuestro tesoro más grande!",
-		src: "/pages/02-castillo.png",
-		alt: "Esperanza señala un castillo. Unos niños juegan, hay frutas y alguien duerme bajo la luna."
-	},
-	{
-		id: "virus",
-		kicker: "Página 2",
-		title: "Unos intrusos diminutos",
-		text: "A veces, en el aire o en las cosas que tocamos, viven unos pequeños intrusos llamados virus. Son tan diminutos que no podemos verlos a simple vista, pero a algunos les gusta entrar a nuestro cuerpo a causar travesuras.",
-		src: "/pages/03-virus.png",
-		alt: "Esperanza mira con una lupa grande a virus pequeñitos y juguetones."
-	},
-	{
-		id: "vph",
-		kicker: "Página 3",
-		title: "El virus que se esconde",
-		text: "Hay un virus travieso llamado VPH. A este virus le gusta esconderse muy bien y, si entra al cuerpo, con el paso de los años puede hacer que algunas de nuestras células se enfermen o se sientan muy cansadas.",
-		src: "/pages/04-vph.png",
-		alt: "Esperanza acompaña a una célula dormida mientras un virus pequeño se asoma detrás."
-	},
-	{
-		id: "entrenamiento",
-		kicker: "Página 4",
-		title: "Un superpoder llamado vacuna",
-		text: "¡Pero no hay nada que temer! Los científicos, que son como magos de la salud, crearon un superpoder para defendernos. Se llama la vacuna, y es un entrenamiento especial que se les da a los soldaditos que nos defienden en nuestro cuerpo.",
-		src: "/pages/05-entrenamiento.png",
-		alt: "Esperanza entrena a unos soldaditos con escudos. Detrás, científicos con gorros de mago sonríen."
-	},
-	{
-		id: "escudo",
-		kicker: "Página 5",
-		title: "Soldaditos en el brazo",
-		text: "Cuando somos niños, recibimos esos pequeños soldaditos en el brazo. Al principio puede asustar un poquito, pero gracias a ellos, nuestro cuerpo aprende a identificar al virus VPH de inmediato y construye un escudo invisible para que nunca nos haga daño.",
-		src: "/pages/06-escudo.png",
-		alt: "Esperanza pone una vacuna en el brazo de un niño. Su familia está cerca y unos soldaditos forman un escudo."
-	},
-	{
-		id: "ninas-ninos",
-		kicker: "Página 6",
-		title: "Niñas y niños, de 9 a 17",
-		text: "La doctora Esperanza explica que tanto niñas como niños podemos vacunarnos gratis si estamos entre los 9 y los 17 años. También cuenta que la vacuna ayuda a prevenir una enfermedad llamada cáncer.",
-		src: "/pages/07-ninas-ninos.png",
-		alt: "Esperanza está entre una niña y un niño con curitas en forma de corazón y mochilas."
-	},
-	{
-		id: "aventura",
-		kicker: "Página 7",
-		title: "El superpoder más grande",
-		text: "Ir al médico a revisarnos y tener nuestras vacunas al día es la mejor forma de crecer fuertes, sanos y listos para cualquier aventura. ¡Cuidar de nosotros es el superpoder más grande!",
-		src: "/pages/08-aventura.png",
-		alt: "Esperanza se despide desde la puerta. Dos niños corren al parque con soldaditos en los hombros."
-	}
-];
-var CRAYONS = [
-	{
-		id: "rosa",
-		name: "Rosa listón",
-		hex: "#E25686"
-	},
-	{
-		id: "azul",
-		name: "Azul bata",
-		hex: "#2C6BBE"
-	},
-	{
-		id: "celeste",
-		name: "Celeste",
-		hex: "#79C7E8"
-	},
-	{
-		id: "verde",
-		name: "Verde",
-		hex: "#2F8F55"
-	},
-	{
-		id: "lima",
-		name: "Lima",
-		hex: "#A8C95A"
-	},
-	{
-		id: "amarillo",
-		name: "Amarillo",
-		hex: "#F0C14A"
-	},
-	{
-		id: "naranja",
-		name: "Naranja",
-		hex: "#EF8A38"
-	},
-	{
-		id: "rojo",
-		name: "Rojo",
-		hex: "#D24B4B"
-	},
-	{
-		id: "morado",
-		name: "Morado",
-		hex: "#7B61C9"
-	},
-	{
-		id: "cafe",
-		name: "Café",
-		hex: "#8A5A38"
-	},
-	{
-		id: "durazno",
-		name: "Durazno",
-		hex: "#F3C5A4"
-	},
-	{
-		id: "tinta",
-		name: "Tinta",
-		hex: "#243044"
-	}
-];
-var STORAGE_KEY = "soldaditos-esperanza-v1";
 var BRUSH_SIZES = [
 	{
 		id: "fino",
@@ -205,13 +76,30 @@ var BRUSH_SIZES = [
 ];
 function loadSave() {
 	try {
-		const raw = localStorage.getItem(STORAGE_KEY);
+		const raw = localStorage.getItem("esperanza-cuentos-v2") ?? localStorage.getItem("soldaditos-esperanza-v1");
 		if (!raw) return {};
 		const data = JSON.parse(raw);
-		return data && typeof data === "object" ? data : {};
+		if (!data || typeof data !== "object") return {};
+		const art = {};
+		if (data.art) for (const [key, value] of Object.entries(data.art)) {
+			if (typeof value !== "string") continue;
+			art[key.includes(":") ? key : `soldaditos:${key}`] = value;
+		}
+		const pages = { ...data.pages ?? {} };
+		if (typeof data.page === "number" && pages.soldaditos == null && !data.story) pages.soldaditos = data.page;
+		return {
+			...data,
+			art,
+			pages
+		};
 	} catch {
 		return {};
 	}
+}
+function flagsFrom(art) {
+	const flags = {};
+	for (const key of Object.keys(art)) flags[key] = true;
+	return flags;
 }
 function wrapLines(ctx, text, maxWidth) {
 	const words = text.split(" ");
@@ -227,7 +115,8 @@ function wrapLines(ctx, text, maxWidth) {
 	if (line) lines.push(line);
 	return lines;
 }
-function ColoringBook() {
+function ColoringBook({ storyId = null }) {
+	const navigate = useNavigate();
 	const [index, setIndex] = (0, import_react.useState)(0);
 	const [tool, setTool] = (0, import_react.useState)("bucket");
 	const [color, setColor] = (0, import_react.useState)(CRAYONS[0].hex);
@@ -244,6 +133,8 @@ function ColoringBook() {
 	});
 	const historyRef = (0, import_react.useRef)([]);
 	const savesRef = (0, import_react.useRef)({});
+	const pagesRef = (0, import_react.useRef)({});
+	const storyRef = (0, import_react.useRef)(null);
 	const indexRef = (0, import_react.useRef)(0);
 	const colorHexRef = (0, import_react.useRef)(color);
 	const dirtyRef = (0, import_react.useRef)(false);
@@ -251,25 +142,37 @@ function ColoringBook() {
 	const drawingRef = (0, import_react.useRef)(false);
 	const lastRef = (0, import_react.useRef)(null);
 	const saveTimer = (0, import_react.useRef)(0);
-	const page = PAGES[index] ?? PAGES[0];
+	const story = STORIES.find((item) => item.id === storyId) ?? null;
+	const pages = story?.pages ?? [];
+	const page = pages[index] ?? pages[0];
 	const crayon = CRAYONS.find((item) => item.hex === color) ?? CRAYONS[0];
 	(0, import_react.useLayoutEffect)(() => {
 		const saved = loadSave();
 		if (saved.art) savesRef.current = saved.art;
+		if (saved.pages) pagesRef.current = saved.pages;
 		if (typeof saved.color === "string" && CRAYONS.some((item) => item.hex === saved.color)) setColor(saved.color);
-		if (typeof saved.page === "number" && saved.page >= 0 && saved.page < PAGES.length) setIndex(saved.page);
-		const flags = {};
-		for (const id of Object.keys(savesRef.current)) flags[id] = true;
-		setPainted(flags);
+		if (storyId) {
+			const length = STORIES.find((item) => item.id === storyId)?.pages.length ?? 1;
+			const savedIndex = saved.pages?.[storyId] ?? 0;
+			setIndex(Math.max(0, Math.min(length - 1, savedIndex)));
+		}
+		setPainted(flagsFrom(savesRef.current));
 		setReady(true);
-	}, []);
+	}, [storyId]);
 	(0, import_react.useEffect)(() => {
+		storyRef.current = storyId;
 		indexRef.current = index;
 		colorHexRef.current = color;
-	}, [index, color]);
+	}, [
+		storyId,
+		index,
+		color
+	]);
 	(0, import_react.useEffect)(() => {
-		if (!ready) return;
-		const current = PAGES[index];
+		if (!ready || !storyId) return;
+		const currentStory = STORIES.find((item) => item.id === storyId);
+		const current = currentStory?.pages[index];
+		if (!current || !currentStory) return;
 		const gen = ++genRef.current;
 		dirtyRef.current = false;
 		historyRef.current = [];
@@ -309,7 +212,7 @@ function ColoringBook() {
 			const walls = new Uint8Array(w * h);
 			for (let i = 0; i < walls.length; i += 1) if (pixels[i * 4 + 3] > 36) walls[i] = 1;
 			wallsRef.current = walls;
-			const saved = savesRef.current[current.id];
+			const saved = savesRef.current[`${currentStory.id}:${current.id}`];
 			if (!saved) return;
 			const paint = new Image();
 			paint.onload = () => {
@@ -323,16 +226,24 @@ function ColoringBook() {
 			window.clearTimeout(saveTimer.current);
 			persist();
 		};
-	}, [index, ready]);
+	}, [
+		index,
+		ready,
+		storyId
+	]);
 	function persist() {
 		const canvas = colorRef.current;
-		const id = PAGES[indexRef.current]?.id;
-		if (!canvas || !id || sizeRef.current.w === 0) return;
+		const storyKey = storyRef.current;
+		const id = storyKey ? STORIES.find((item) => item.id === storyKey)?.pages[indexRef.current]?.id : void 0;
+		if (!canvas || !storyKey || !id || sizeRef.current.w === 0) return;
+		pagesRef.current[storyKey] = indexRef.current;
 		try {
 			const url = canvas.toDataURL("image/jpeg", .86);
-			savesRef.current[id] = url;
+			savesRef.current[`${storyKey}:${id}`] = url;
 			const payload = {
+				story: storyKey,
 				page: indexRef.current,
+				pages: pagesRef.current,
 				color: colorHexRef.current,
 				art: savesRef.current
 			};
@@ -340,7 +251,9 @@ function ColoringBook() {
 		} catch {
 			try {
 				const payload = {
+					story: storyKey,
 					page: indexRef.current,
+					pages: pagesRef.current,
 					color: colorHexRef.current
 				};
 				localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -366,9 +279,10 @@ function ColoringBook() {
 	}
 	function markPainted(id) {
 		dirtyRef.current = true;
-		setPainted((prev) => prev[id] ? prev : {
+		const key = storyRef.current ? `${storyRef.current}:${id}` : id;
+		setPainted((prev) => prev[key] ? prev : {
 			...prev,
-			[id]: true
+			[key]: true
 		});
 	}
 	function toBitmap(event) {
@@ -456,6 +370,7 @@ function ColoringBook() {
 		scheduleSave();
 	}
 	function clearPage() {
+		if (!page || !storyId) return;
 		const ctx = ctxOf();
 		const { w, h } = sizeRef.current;
 		if (!ctx || w === 0) return;
@@ -464,18 +379,19 @@ function ColoringBook() {
 		ctx.fillRect(0, 0, w, h);
 		setPainted((prev) => ({
 			...prev,
-			[page.id]: false
+			[`${storyId}:${page.id}`]: false
 		}));
 		scheduleSave();
 	}
 	function go(next) {
-		const clamped = Math.max(0, Math.min(PAGES.length - 1, next));
+		const clamped = Math.max(0, Math.min(pages.length - 1, next));
 		if (clamped === index) return;
 		window.clearTimeout(saveTimer.current);
 		persist();
 		setIndex(clamped);
 	}
 	async function download() {
+		if (!page || !storyId) return;
 		const canvas = colorRef.current;
 		if (!canvas || sizeRef.current.w === 0) return;
 		const line = new Image();
@@ -516,7 +432,7 @@ function ColoringBook() {
 		ctx.fillText("Dra. Esperanza · Liga Contra el Cáncer, Zonal Tolima", pad, creditY);
 		const link = document.createElement("a");
 		link.href = out.toDataURL("image/png");
-		link.download = `soldaditos-${page.id}.png`;
+		link.download = `${storyId}-${page.id}.png`;
 		link.click();
 	}
 	(0, import_react.useEffect)(() => {
@@ -533,23 +449,31 @@ function ColoringBook() {
 		window.addEventListener("keydown", onKey);
 		return () => window.removeEventListener("keydown", onKey);
 	}, []);
+	function closeStory() {
+		window.clearTimeout(saveTimer.current);
+		persist();
+		navigate({ to: "/" });
+	}
 	const cursor = tool === "bucket" ? "cursor-cell" : "cursor-crosshair";
+	if (!story || !page) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StoryLibrary, { painted });
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "flex min-h-dvh flex-col overflow-x-hidden bg-paper text-ink",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
 				className: "safe-top no-print mx-auto flex w-full max-w-6xl items-center gap-3 px-4 pb-2 sm:px-6 sm:pt-4",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						type: "button",
+						onClick: closeStory,
+						"aria-label": "Volver a los cuentos",
 						className: "grid size-11 shrink-0 place-items-center rounded-full bg-ink text-ribbon",
-						"aria-hidden": "true",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RibbonMark, {})
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "size-5" })
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "min-w-0 flex-1",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "font-display text-lg leading-tight font-semibold text-ink sm:text-2xl",
-							children: STORY_TITLE
+							children: story.title
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "truncate text-sm font-bold text-ink-soft",
 							children: "Cuento para colorear · doctora Esperanza"
@@ -559,7 +483,7 @@ function ColoringBook() {
 						className: "shrink-0 text-sm font-extrabold text-ink tabular-nums",
 						children: [index + 1, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 							className: "text-ink-soft",
-							children: [" / ", PAGES.length]
+							children: [" / ", pages.length]
 						})]
 					})
 				]
@@ -581,19 +505,19 @@ function ColoringBook() {
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "flex min-w-0 flex-1 justify-center",
-						children: PAGES.map((item, dot) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						children: pages.map((item, dot) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 							type: "button",
 							"aria-label": item.title,
 							"aria-current": dot === index ? "page" : void 0,
 							onClick: () => go(dot),
 							className: "grid h-11 min-w-0 flex-1 place-items-center",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2.5 rounded-full " + (dot === index ? "bg-ribbon" : painted[item.id] ? "bg-ink" : "bg-sand") })
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2.5 rounded-full " + (dot === index ? "bg-ribbon" : painted[`${story.id}:${item.id}`] ? "bg-ink" : "bg-sand") })
 						}, item.id))
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 						type: "button",
 						onClick: () => go(index + 1),
-						disabled: index === PAGES.length - 1,
+						disabled: index === pages.length - 1,
 						"aria-label": "Página siguiente",
 						className: "inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-full bg-ink px-3 text-sm font-extrabold text-paper disabled:opacity-40",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
@@ -747,6 +671,66 @@ function ToolButton({ active, label, onClick, children }) {
 		children: [children, label]
 	});
 }
+function StoryLibrary({ painted }) {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "min-h-dvh bg-paper text-ink",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
+			className: "safe-top mx-auto flex w-full max-w-3xl items-center gap-3 px-4 pb-3 sm:px-6",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "grid size-11 shrink-0 place-items-center rounded-full bg-ink text-ribbon",
+				"aria-hidden": "true",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RibbonMark, {})
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "min-w-0",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+					className: "font-display text-2xl leading-tight font-semibold text-ink sm:text-3xl",
+					children: "Cuentos para colorear"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-sm font-bold text-ink-soft",
+					children: "Doctora Esperanza · Liga Contra el Cáncer, Zonal Tolima"
+				})]
+			})]
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
+			className: "mx-auto grid w-full max-w-3xl gap-3 px-4 pb-8 sm:grid-cols-2 sm:px-6",
+			children: STORIES.map((story) => {
+				const done = story.pages.filter((item) => painted[`${story.id}:${item.id}`]).length;
+				return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+					to: "/$cuento",
+					params: { cuento: story.id },
+					className: "flex min-h-28 items-stretch gap-3 rounded-2xl bg-sheet p-3 text-left shadow-sm",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+						src: story.pages[0]?.src,
+						alt: "",
+						className: "h-32 w-24 shrink-0 rounded-xl bg-white object-contain"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+						className: "min-w-0 flex-1",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "block font-display text-xl leading-tight font-semibold text-ink",
+								children: story.title
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "mt-1 block text-sm leading-snug font-semibold text-ink-soft",
+								children: story.blurb
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+								className: "mt-2 block text-xs font-extrabold text-ribbon-ink",
+								children: [
+									"/",
+									story.id,
+									" · ",
+									story.pages.length,
+									" páginas",
+									done > 0 ? ` · ${done} con color` : ""
+								]
+							})
+						]
+					})]
+				}, story.id);
+			})
+		})]
+	});
+}
 function RibbonMark() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
 		viewBox: "0 0 32 32",
@@ -769,8 +753,5 @@ function RibbonMark() {
 		]
 	});
 }
-function Home() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ColoringBook, {});
-}
 //#endregion
-export { Home as component };
+export { ColoringBook as t };

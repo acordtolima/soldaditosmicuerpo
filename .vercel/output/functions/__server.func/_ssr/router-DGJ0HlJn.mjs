@@ -1,11 +1,21 @@
-import { i as __toESM, n as __exportAll } from "../_runtime.mjs";
-import { K as require_react, _ as createFileRoute, b as require_jsx_runtime, d as Scripts, f as HeadContent, g as lazyRouteComponent, h as Outlet, m as createRouter, v as createRootRoute, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
+import { i as __toESM } from "../_runtime.mjs";
+import { r as STORIES } from "./story-CxOBctAR.mjs";
+import { K as redirect, S as require_jsx_runtime, Y as require_react, _ as createFileRoute, d as Scripts, f as HeadContent, g as lazyRouteComponent, h as Outlet, m as createRouter, v as createRootRoute, x as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-CD0g2q0K.js
-var router_CD0g2q0K_exports = /* @__PURE__ */ __exportAll({ getRouter: () => getRouter });
+//#region node_modules/.nitro/vite/services/ssr/assets/router-DGJ0HlJn.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
+var __defProp = Object.defineProperty;
+var __exportAll = (all, no_symbols) => {
+	let target = {};
+	for (var name in all) __defProp(target, name, {
+		get: all[name],
+		enumerable: true
+	});
+	if (!no_symbols) __defProp(target, Symbol.toStringTag, { value: "Module" });
+	return target;
+};
 var FALLBACK_MESSAGE = "An unexpected error occurred. Try reloading the page.";
 function errorMessage(error) {
 	if (error instanceof Error && error.message) return error.message;
@@ -297,9 +307,9 @@ function PreviewHostBridge() {
 	}, [router]);
 	return null;
 }
-var styles_default = "/assets/styles-cJnLGbpF.css";
-var APP_NAME = "Los soldaditos de mi cuerpo";
-var Route$1 = createRootRoute({
+var styles_default = "/assets/styles-DdvoyS-g.css";
+var APP_NAME = "Cuentos para colorear";
+var Route$2 = createRootRoute({
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -310,7 +320,7 @@ var Route$1 = createRootRoute({
 			{ title: APP_NAME },
 			{
 				name: "description",
-				content: "Cuento para colorear con la doctora Esperanza. Los soldaditos del cuerpo, el VPH y la vacuna."
+				content: "Cuentos para colorear con la doctora Esperanza, de la Liga Contra el Cáncer, Zonal Tolima."
 			},
 			{
 				name: "theme-color",
@@ -360,13 +370,36 @@ var Route$1 = createRootRoute({
 		] })]
 	})
 });
-var $$splitComponentImporter = () => import("./routes-CmLAkjUi.mjs");
-var rootRouteChildren = { IndexRoute: createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") }).update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => Route$1
-}) };
-var routeTree = Route$1._addFileChildren(rootRouteChildren)._addFileTypes();
+var $$splitComponentImporter$1 = () => import("./routes-Cef0Wt4n.mjs");
+var Route$1 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
+var $$splitComponentImporter = () => import("../_cuento-Dnyv2dns.mjs");
+var Route = createFileRoute("/$cuento")({
+	beforeLoad: ({ params }) => {
+		if (!STORIES.some((item) => item.id === params.cuento)) throw redirect({ to: "/" });
+	},
+	head: ({ params }) => {
+		const story = STORIES.find((item) => item.id === params.cuento);
+		return { meta: [{ title: story ? `${story.title} · Cuentos para colorear` : "Cuentos para colorear" }, {
+			name: "description",
+			content: story?.blurb ?? ""
+		}] };
+	},
+	component: lazyRouteComponent($$splitComponentImporter, "component")
+});
+var rootRouteChildren = {
+	IndexRoute: Route$1.update({
+		id: "/",
+		path: "/",
+		getParentRoute: () => Route$2
+	}),
+	CuentoRoute: Route.update({
+		id: "/$cuento",
+		path: "/$cuento",
+		getParentRoute: () => Route$2
+	})
+};
+var routeTree = Route$2._addFileChildren(rootRouteChildren)._addFileTypes();
+var router_exports = /* @__PURE__ */ __exportAll({ getRouter: () => getRouter });
 function getRouter() {
 	return createRouter({
 		routeTree,
@@ -374,4 +407,4 @@ function getRouter() {
 	});
 }
 //#endregion
-export { getRouter, router_CD0g2q0K_exports as t };
+export { Route as n, router_exports as t };

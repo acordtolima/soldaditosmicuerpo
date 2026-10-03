@@ -9,11 +9,18 @@ import {
   RotateCcw,
   Undo2,
 } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { floodFill, hexToRgb } from "@/lib/flood-fill";
-import { CRAYONS, PAGES, STORAGE_KEY, STORY_TITLE } from "@/lib/story";
+import { CRAYONS, LEGACY_STORAGE_KEY, STORAGE_KEY, STORIES } from "@/lib/story";
 
 type Tool = "bucket" | "brush" | "eraser";
-type SaveFile = { page?: number; color?: string; art?: Record<string, string> };
+type SaveFile = {
+  story?: string;
+  page?: number;
+  pages?: Record<string, number>;
+  color?: string;
+  art?: Record<string, string>;
+};
 
 const BRUSH_SIZES = [
   { id: "fino", label: "Fino", css: 8 },
@@ -23,13 +30,31 @@ const BRUSH_SIZES = [
 
 function loadSave(): SaveFile {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_STORAGE_KEY);
     if (!raw) return {};
     const data = JSON.parse(raw) as SaveFile;
-    return data && typeof data === "object" ? data : {};
+    if (!data || typeof data !== "object") return {};
+    const art: Record<string, string> = {};
+    if (data.art) {
+      for (const [key, value] of Object.entries(data.art)) {
+        if (typeof value !== "string") continue;
+        art[key.includes(":") ? key : `soldaditos:${key}`] = value;
+      }
+    }
+    const pages = { ...(data.pages ?? {}) };
+    if (typeof data.page === "number" && pages.soldaditos == null && !data.story) {
+      pages.soldaditos = data.page;
+    }
+    return { ...data, art, pages };
   } catch {
     return {};
   }
+}
+
+function flagsFrom(art: Record<string, string>): Record<string, boolean> {
+  const flags: Record<string, boolean> = {};
+  for (const key of Object.keys(art)) flags[key] = true;
+  return flags;
 }
 
 function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
@@ -49,7 +74,8 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
   return lines;
 }
 
-export function ColoringBook() {
+export function ColoringBook({ storyId = null }: { storyId?: string | null }) {
+  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const [tool, setTool] = useState<Tool>("bucket");
   const [color, setColor] = useState(CRAYONS[0].hex);
@@ -64,6 +90,8 @@ export function ColoringBook() {
   const sizeRef = useRef({ w: 0, h: 0 });
   const historyRef = useRef<ImageData[]>([]);
   const savesRef = useRef<Record<string, string>>({});
+  const pagesRef = useRef<Record<string, number>>({});
+  const storyRef = useRef<string | null>(null);
   const indexRef = useRef(0);
   const colorHexRef = useRef(color);
   const dirtyRef = useRef(false);
@@ -72,32 +100,38 @@ export function ColoringBook() {
   const lastRef = useRef<{ x: number; y: number } | null>(null);
   const saveTimer = useRef<number>(0);
 
-  const page = PAGES[index] ?? PAGES[0];
+  const story = STORIES.find((item) => item.id === storyId) ?? null;
+  const pages = story?.pages ?? [];
+  const page = pages[index] ?? pages[0];
   const crayon = CRAYONS.find((item) => item.hex === color) ?? CRAYONS[0];
 
   useLayoutEffect(() => {
     const saved = loadSave();
     if (saved.art) savesRef.current = saved.art;
+    if (saved.pages) pagesRef.current = saved.pages;
     if (typeof saved.color === "string" && CRAYONS.some((item) => item.hex === saved.color)) {
       setColor(saved.color);
     }
-    if (typeof saved.page === "number" && saved.page >= 0 && saved.page < PAGES.length) {
-      setIndex(saved.page);
+    if (storyId) {
+      const length = STORIES.find((item) => item.id === storyId)?.pages.length ?? 1;
+      const savedIndex = saved.pages?.[storyId] ?? 0;
+      setIndex(Math.max(0, Math.min(length - 1, savedIndex)));
     }
-    const flags: Record<string, boolean> = {};
-    for (const id of Object.keys(savesRef.current)) flags[id] = true;
-    setPainted(flags);
+    setPainted(flagsFrom(savesRef.current));
     setReady(true);
-  }, []);
+  }, [storyId]);
 
   useEffect(() => {
+    storyRef.current = storyId;
     indexRef.current = index;
     colorHexRef.current = color;
-  }, [index, color]);
+  }, [storyId, index, color]);
 
   useEffect(() => {
-    if (!ready) return;
-    const current = PAGES[index];
+    if (!ready || !storyId) return;
+    const currentStory = STORIES.find((item) => item.id === storyId);
+    const current = currentStory?.pages[index];
+    if (!current || !currentStory) return;
     const gen = ++genRef.current;
     dirtyRef.current = false;
     historyRef.current = [];
@@ -139,7 +173,7 @@ export function ColoringBook() {
       }
       wallsRef.current = walls;
 
-      const saved = savesRef.current[current.id];
+      const saved = savesRef.current[`${currentStory.id}:${current.id}`];
       if (!saved) return;
       const paint = new Image();
       paint.onload = () => {
@@ -156,24 +190,33 @@ export function ColoringBook() {
     };
     // persist is stable enough for page switches; index is the trigger
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, ready]);
+  }, [index, ready, storyId]);
 
   function persist() {
     const canvas = colorRef.current;
-    const id = PAGES[indexRef.current]?.id;
-    if (!canvas || !id || sizeRef.current.w === 0) return;
+    const storyKey = storyRef.current;
+    const id = storyKey ? STORIES.find((item) => item.id === storyKey)?.pages[indexRef.current]?.id : undefined;
+    if (!canvas || !storyKey || !id || sizeRef.current.w === 0) return;
+    pagesRef.current[storyKey] = indexRef.current;
     try {
       const url = canvas.toDataURL("image/jpeg", 0.86);
-      savesRef.current[id] = url;
+      savesRef.current[`${storyKey}:${id}`] = url;
       const payload: SaveFile = {
+        story: storyKey,
         page: indexRef.current,
+        pages: pagesRef.current,
         color: colorHexRef.current,
         art: savesRef.current,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch {
       try {
-        const payload: SaveFile = { page: indexRef.current, color: colorHexRef.current };
+        const payload: SaveFile = {
+          story: storyKey,
+          page: indexRef.current,
+          pages: pagesRef.current,
+          color: colorHexRef.current,
+        };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
       } catch {
         /* storage full — coloring still works this visit */
@@ -203,7 +246,8 @@ export function ColoringBook() {
 
   function markPainted(id: string) {
     dirtyRef.current = true;
-    setPainted((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+    const key = storyRef.current ? `${storyRef.current}:${id}` : id;
+    setPainted((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
   }
 
   function toBitmap(event: PointerEvent<HTMLCanvasElement>) {
@@ -303,18 +347,19 @@ export function ColoringBook() {
   }
 
   function clearPage() {
+    if (!page || !storyId) return;
     const ctx = ctxOf();
     const { w, h } = sizeRef.current;
     if (!ctx || w === 0) return;
     pushHistory();
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, w, h);
-    setPainted((prev) => ({ ...prev, [page.id]: false }));
+    setPainted((prev) => ({ ...prev, [`${storyId}:${page.id}`]: false }));
     scheduleSave();
   }
 
   function go(next: number) {
-    const clamped = Math.max(0, Math.min(PAGES.length - 1, next));
+    const clamped = Math.max(0, Math.min(pages.length - 1, next));
     if (clamped === index) return;
     window.clearTimeout(saveTimer.current);
     persist();
@@ -322,6 +367,7 @@ export function ColoringBook() {
   }
 
   async function download() {
+    if (!page || !storyId) return;
     const canvas = colorRef.current;
     if (!canvas || sizeRef.current.w === 0) return;
     const line = new Image();
@@ -365,7 +411,7 @@ export function ColoringBook() {
     ctx.fillText("Dra. Esperanza · Liga Contra el Cáncer, Zonal Tolima", pad, creditY);
     const link = document.createElement("a");
     link.href = out.toDataURL("image/png");
-    link.download = `soldaditos-${page.id}.png`;
+    link.download = `${storyId}-${page.id}.png`;
     link.click();
   }
 
@@ -386,20 +432,32 @@ export function ColoringBook() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function closeStory() {
+    window.clearTimeout(saveTimer.current);
+    persist();
+    void navigate({ to: "/" });
+  }
+
   const cursor = tool === "bucket" ? "cursor-cell" : "cursor-crosshair";
+
+  if (!story || !page) {
+    return <StoryLibrary painted={painted} />;
+  }
 
   return (
     <div className="flex min-h-dvh flex-col overflow-x-hidden bg-paper text-ink">
       <header className="safe-top no-print mx-auto flex w-full max-w-6xl items-center gap-3 px-4 pb-2 sm:px-6 sm:pt-4">
-        <span
+        <button
+          type="button"
+          onClick={closeStory}
+          aria-label="Volver a los cuentos"
           className="grid size-11 shrink-0 place-items-center rounded-full bg-ink text-ribbon"
-          aria-hidden="true"
         >
-          <RibbonMark />
-        </span>
+          <ChevronLeft className="size-5" />
+        </button>
         <div className="min-w-0 flex-1">
           <p className="font-display text-lg leading-tight font-semibold text-ink sm:text-2xl">
-            {STORY_TITLE}
+            {story.title}
           </p>
           <p className="truncate text-sm font-bold text-ink-soft">
             Cuento para colorear · doctora Esperanza
@@ -407,7 +465,7 @@ export function ColoringBook() {
         </div>
         <p className="shrink-0 text-sm font-extrabold text-ink tabular-nums">
           {index + 1}
-          <span className="text-ink-soft"> / {PAGES.length}</span>
+          <span className="text-ink-soft"> / {pages.length}</span>
         </p>
       </header>
 
@@ -426,7 +484,7 @@ export function ColoringBook() {
           <span className="hidden sm:inline">Anterior</span>
         </button>
         <div className="flex min-w-0 flex-1 justify-center">
-          {PAGES.map((item, dot) => (
+          {pages.map((item, dot) => (
             <button
               key={item.id}
               type="button"
@@ -438,7 +496,7 @@ export function ColoringBook() {
               <span
                 className={
                   "size-2.5 rounded-full " +
-                  (dot === index ? "bg-ribbon" : painted[item.id] ? "bg-ink" : "bg-sand")
+                  (dot === index ? "bg-ribbon" : painted[`${story.id}:${item.id}`] ? "bg-ink" : "bg-sand")
                 }
               />
             </button>
@@ -447,7 +505,7 @@ export function ColoringBook() {
         <button
           type="button"
           onClick={() => go(index + 1)}
-          disabled={index === PAGES.length - 1}
+          disabled={index === pages.length - 1}
           aria-label="Página siguiente"
           className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-full bg-ink px-3 text-sm font-extrabold text-paper disabled:opacity-40"
         >
@@ -615,6 +673,59 @@ function ToolButton({
       {children}
       {label}
     </button>
+  );
+}
+
+function StoryLibrary({ painted }: { painted: Record<string, boolean> }) {
+  return (
+    <div className="min-h-dvh bg-paper text-ink">
+      <header className="safe-top mx-auto flex w-full max-w-3xl items-center gap-3 px-4 pb-3 sm:px-6">
+        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-ink text-ribbon" aria-hidden="true">
+          <RibbonMark />
+        </span>
+        <div className="min-w-0">
+          <h1 className="font-display text-2xl leading-tight font-semibold text-ink sm:text-3xl">
+            Cuentos para colorear
+          </h1>
+          <p className="text-sm font-bold text-ink-soft">
+            Doctora Esperanza · Liga Contra el Cáncer, Zonal Tolima
+          </p>
+        </div>
+      </header>
+      <main className="mx-auto grid w-full max-w-3xl gap-3 px-4 pb-8 sm:grid-cols-2 sm:px-6">
+        {STORIES.map((story) => {
+          const done = story.pages.filter((item) => painted[`${story.id}:${item.id}`]).length;
+          return (
+            <Link
+              key={story.id}
+              to="/$cuento"
+              params={{ cuento: story.id }}
+              className="flex min-h-28 items-stretch gap-3 rounded-2xl bg-sheet p-3 text-left shadow-sm"
+            >
+              <img
+                src={story.pages[0]?.src}
+                alt=""
+                className="h-32 w-24 shrink-0 rounded-xl bg-white object-contain"
+              />
+              <span className="min-w-0 flex-1">
+                <span className="block font-display text-xl leading-tight font-semibold text-ink">
+                  {story.title}
+                </span>
+                <span className="mt-1 block text-sm leading-snug font-semibold text-ink-soft">
+                  {story.blurb}
+                </span>
+                <span className="mt-2 block text-xs font-extrabold text-ribbon-ink">
+                  /{story.id}
+                  {" · "}
+                  {story.pages.length} páginas
+                  {done > 0 ? ` · ${done} con color` : ""}
+                </span>
+              </span>
+            </Link>
+          );
+        })}
+      </main>
+    </div>
   );
 }
 

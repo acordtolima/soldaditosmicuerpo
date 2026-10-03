@@ -1,0 +1,1 @@
+import{p as e}from"./story-BX8GAHrN.js";import{t}from"./coloring-book-_VBlAkEa.js";var n=e();function r(){return(0,n.jsx)(t,{})}export{r as component};
